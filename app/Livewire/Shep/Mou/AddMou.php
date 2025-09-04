@@ -11,6 +11,7 @@ class AddMou extends Component
 {
     public $maindealers = [];
     public $schools_id = [];
+    public $nomorsurat ='';
     public $maindealer_id = '';
     public $school_id = '';
     public $status_dokumen = '';
@@ -18,6 +19,7 @@ class AddMou extends Component
 
     public function save(){
         $this->validate([
+            'nomorsurat' => 'required|integer|unique:recaps,nomor_surat',
             'maindealer_id' => 'required',
             'school_id' => 'required',
             'status_dokumen' => 'required',
@@ -25,6 +27,7 @@ class AddMou extends Component
         ]);
 
         \App\Models\Recap::create([
+            'nomor_surat' => $this->nomorsurat,
             'main_dealer_id' => $this->maindealer_id,
             'school_id' => $this->school_id,
             'status_dokumen' => $this->status_dokumen,

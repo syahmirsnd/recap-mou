@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('recaps', function (Blueprint $table) {
             $table->id();
+            $table->integer('nomor_surat')->unique();
             $table->enum('status_dokumen', [
                 'Di Arsip',
                 'Proses TTD (4)',

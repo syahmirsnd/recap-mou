@@ -66,55 +66,52 @@
 
                 <th scope="col" class="px-6 py-3 text-start">
                   <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
-                    Aksi
+                    Waktu Pengisian
                   </span>
                 </th>
-
                 </tr>
             </thead>
 
             <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-              <tr>
+            @foreach ($recaps as $recap)
+            <tr wire:key="{{ $recap->id }}">
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="text-sm text-gray-800 dark:text-neutral-200">208</span>
-                    <span class="text-xs text-gray-500 dark:text-neutral-500">(21.67%)</span>
+                    <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->mainDealer->md_code }}</span>
                   </div>
                 </td>
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="font-semibold text-sm text-gray-800 dark:text-neutral-200">195</span>
-                    <span class="text-xs text-gray-500 dark:text-neutral-500">(23.16%)</span>
+                    <span class="font-semibold text-sm text-gray-800 dark:text-neutral-200">{{  $recap->mainDealer->md_name }}</span>
                   </div>
                 </td>
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="text-sm text-gray-800 dark:text-neutral-200">172</span>
-                    <span class="text-xs text-gray-500 dark:text-neutral-500">(24.50%)</span>
+                    <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->School->npsn }}</span>
                   </div>
                 </td>
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="text-sm text-gray-800 dark:text-neutral-200">208</span>
-                    <span class="text-xs text-gray-500 dark:text-neutral-500">(21.67%)</span>
+                    <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->School->school_name }}</span>
                   </div>
                 </td>
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="text-sm text-gray-800 dark:text-neutral-200">68.75%</span>
+                    <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->status_dokumen}}</span>
                   </div>
                 </td>
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="text-sm text-gray-800 dark:text-neutral-200">1.45%</span>
+                    <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->keterangan }}</span>
                   </div>
                 </td>
                 <td class="h-px w-auto whitespace-nowrap">
                   <div class="px-6 py-2">
-                    <span class="text-sm text-gray-800 dark:text-neutral-200">00:00:16</span>
+                    <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->updated_at }}</span>
                   </div>
                 </td>
               </tr>
+            @endforeach  
             </tbody>
           </table>
           <!-- End Table -->

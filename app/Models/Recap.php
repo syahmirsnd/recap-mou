@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Recap extends Model
 {
     protected $fillable = [
+        'nomor_surat',
         'status_dokumen',
         'main_dealer_id',
         'school_id',
