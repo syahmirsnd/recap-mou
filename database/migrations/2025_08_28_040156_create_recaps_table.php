@@ -19,8 +19,9 @@ return new class extends Migration
                 'Proses TTD (3)',
                 'Proses TTD (2)',
                 'Dikembalikan',
+                'Belum Diterima',
                 'SMK Terminasi'
-            ]);
+            ])->default('Belum Diterima');
             $table->foreignId('main_dealer_id')->constrained('main_dealers')->cascadeOnDelete();
             $table->foreignId('school_id')->constrained('schools')->cascadeOnDelete();
             $table->string('keterangan')->nullable();

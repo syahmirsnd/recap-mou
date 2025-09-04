@@ -5,6 +5,7 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Shep\Mou\MouList as ShepMouList;
+use App\Livewire\Shep\Mou\AddMou;
 use App\Livewire\User\Mou\MouList as UserMouList;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::middleware(['auth', 'verified', 'user'])->group(function () {
 Route::middleware(['auth', 'shep'])->group(function () {
     Route::get('/shep/mou-list', ShepMouList::class)->name('shep.mou.index');
 });
+Route::get('/create/mou', AddMou::class)->name('mou.create');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
