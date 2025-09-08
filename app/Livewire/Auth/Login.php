@@ -40,6 +40,12 @@ class Login extends Component
             ]);
         }
 
+        if (auth()->user()->role === 'user' && auth()->user()->shep_verified !== 'yes') {
+        Auth::logout();
+        throw ValidationException::withMessages([
+            'email' => 'Akun Anda belum diverifikasi oleh SHEP.',
+        ]);}
+
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
