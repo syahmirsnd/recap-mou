@@ -5,9 +5,11 @@ namespace App\Livewire\Shep\Mou;
 use Livewire\Component;
 use App\Models\Recap;
 use Masmerise\Toaster\Toaster;
+use Livewire\Attributes\On;
 
 class MouList extends Component
 {
+    #[On('deleteRecap')]
     public function delete($id){
         Recap::find($id)->delete();
         Toaster::success('Data MoU Berhasil Dihapus');

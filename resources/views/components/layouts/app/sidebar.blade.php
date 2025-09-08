@@ -126,5 +126,7 @@
 
         @fluxScripts
         <x-toaster-hub />
+
+        @stack('scripts')
     </body>
 </html>
