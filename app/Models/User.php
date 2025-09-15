@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'shep_verified'
     ];
 
     /**
@@ -58,5 +59,14 @@ class User extends Authenticatable
             ->take(2)
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            if ($user->email === 'randotheguy@example.com') {
+                throw new \Exception("Akun ini tidak boleh dihapus!");
+            }
+        });
     }
 }

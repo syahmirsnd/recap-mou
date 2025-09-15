@@ -18,8 +18,9 @@
                 </flux:navlist.group>
                 @if(auth()->user()->role === 'shep')                  
                 <flux:navlist.group :heading="__('Shep')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('shep.dashboard')" :current="request()->routeIs('shep.dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    <flux:navlist.item icon="document-duplicate" :href="route('shep.mou.index')" :current="request()->routeIs('shep.mou.index')" wire:navigate>{{ __('List MoU') }}</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('shep.user.index')" :current="request()->routeIs('shep.user.index')" wire:navigate>{{ __('Pengguna') }}</flux:navlist.item>
+                    <flux:navlist.item icon="building-office" :href="route('shep.maindealer.index')" :current="request()->routeIs('shep.maindealer.index')" wire:navigate>{{ __('Main Dealer') }}</flux:navlist.item>
+                    <flux:navlist.item icon="academic-cap" :href="route('shep.school.index')" :current="request()->routeIs('shep.school.index')" wire:navigate>{{ __('Sekolah') }}</flux:navlist.item>
                 </flux:navlist.group>   
                 @endif               
             </flux:navlist>

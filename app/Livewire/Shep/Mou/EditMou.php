@@ -5,11 +5,11 @@ namespace App\Livewire\Shep\Mou;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Masmerise\Toaster\Toaster;
+use App\Models\School;
 #[Title('CCO Recap MOU | Edit MoU')]
 
 class EditMou extends Component
 {
-    public $maindealers = [];
     public $schools_id = [];
     public $nomorsurat ='';
     public $maindealer_id = '';
@@ -29,18 +29,20 @@ class EditMou extends Component
             'keterangan' => $this->mou_details->keterangan,
         ]);
 
-        $this->maindealers = \App\Models\MainDealer::all();
         $this->schools_id = \App\Models\School::all();  
     }
 
     public function update(){
         $this->validate([
-            'nomorsurat' => 'required|integer',
+            'nomorsurat' => 'required|integer|unique:recaps,nomor_surat,' . $this->mou_details->id . ',id',
             'maindealer_id' => 'required',
             'school_id' => 'required',
             'status_dokumen' => 'required',
             'keterangan' => 'string',
         ]);
+
+        $school = School::findOrFail($this->school_id);
+        $this->maindealer_id = $school->main_dealer_id;
 
         \App\Models\Recap::find($this->mou_details->id)->update([
             'nomor_surat' => $this->nomorsurat,
