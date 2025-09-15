@@ -19,21 +19,58 @@
           @enderror
         </div>
 
-        <div class="mb-4 sm:mb-8">
+        <div class="mb-4 sm:mb-8"
+            x-data="{ open: false, search: '', selectedName: 'Pilih SMK' }"
+            @click.away="open = false">
+
           <label for="school_id" class="block mb-2 text-sm font-medium dark:text-white">SMK</label>
-          <select id="school_id" wire:model="school_id"
-                class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm 
-                    focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 
-                    disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 
-                    dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-                <option selected="">Pilih SMK</option>
-                @foreach ($schools_id as $school)
-                    <option value="{{$school->id}}">{{ $school->school_name }} </option>
-                @endforeach
-            </select> 
-            @error ('school_id')
-                <span class="text-red-500">{{ $message }}</span>
-            @enderror
+
+          <!-- Trigger -->
+          <button type="button"
+            class="w-full py-2.5 sm:py-3 px-4 flex justify-between items-center border border-gray-200 rounded-lg sm:text-sm 
+                  focus:border-blue-500 focus:ring focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400"
+            @click="open = !open">
+            <span x-text="selectedName"></span>
+            <svg class="w-2.5 h-2.5 ms-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="m1 1 4 4 4-4"/>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div x-show="open" x-transition 
+              class="mt-2 w-full bg-white shadow-md rounded-lg p-3 dark:bg-neutral-900 max-h-64 overflow-y-auto z-10">
+
+            <!-- Search -->
+            <div class="mb-3">
+              <input type="text" placeholder="Cari SMK..."
+                class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring 
+                      focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-800 dark:border-neutral-600 dark:text-white"
+                x-model="search"
+                @click.stop>
+            </div>
+
+            <!-- List -->
+            <ul class="space-y-2">
+              @foreach ($schools_id as $school)
+                <li x-show="{{ json_encode($school->school_name) }}.toLowerCase().includes(search.toLowerCase())">
+                  <button type="button"
+                    class="w-full text-left px-2 py-1.5 rounded hover:bg-gray-100 dark:hover:bg-neutral-700 text-sm"
+                    @click="
+                      selectedName = '{{ $school->school_name }}'; 
+                      $wire.set('school_id', {{ $school->id }});
+                      open = false;
+                    ">
+                    {{ $school->school_name }}
+                  </button>
+                </li>
+              @endforeach
+            </ul>
+          </div>
+
+          @error ('school_id')
+            <span class="text-red-500">{{ $message }}</span>
+          @enderror
         </div>
 
         <div class="mb-4 sm:mb-8">

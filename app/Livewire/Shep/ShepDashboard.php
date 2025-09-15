@@ -9,6 +9,7 @@ class ShepDashboard extends Component
     public $countMainDealer;
     public $countSchool;
     public $countRecap;
+    public $barChartData;
 
     public function mount()
     {
@@ -18,7 +19,12 @@ class ShepDashboard extends Component
             ->selectRaw('COUNT(*) as total')
             ->groupBy('status_dokumen')
             ->pluck('total', 'status_dokumen');
+    $this->barChartData = \App\Models\MainDealer::withCount('schools')
+            ->orderByDesc('schools_count')
+            ->take(5)
+            ->pluck('schools_count', 'md_name');
     }
+    
     
     public function render()
     {

@@ -1,70 +1,129 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@push('scripts')
 <script>
-    document.addEventListener("livewire:load", () => {
-        const ctx = document.getElementById('statusDokumenChart').getContext('2d');
+        function renderChart() {
+            const canvas = document.getElementById('statusDokumenChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
 
-        new Chart(ctx, {
-            type: 'pie',
+            window.statusDokumenChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: @json($countRecap->keys()),
+                    datasets: [{
+                        data: @json($countRecap->values()),
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        renderChart();
+
+        function renderMainDealerBarChart() {
+        const canvas = document.getElementById('mainDealerBarChart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+
+        window.mainDealerBarChart = new Chart(ctx, {
+            type: 'bar',
             data: {
-                labels: @json($countRecap->keys()),
+                labels: @json($barChartData->keys()),    // nama MD
                 datasets: [{
-                    data: @json($countRecap->values()),
-                    backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6'],
+                    label: 'Jumlah SMK',
+                    data: @json($barChartData->values()), // jumlah SMK per MD
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 6
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'bottom' }
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#6b7280', font: { size: 12 } },
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#6b7280', stepSize: 1 },
+                        grid: { color: '#e5e7eb' }
+                    }
                 }
             }
         });
-    });
-</script>
+    }
 
-<div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
+    renderMainDealerBarChart();
+        
+</script>
+@endpush
+
+
+<div class="flex h-full w-full min-h-screen flex-1 flex-col gap-4 rounded-xl">
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4">
+            <div class="relative h-100 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4">
                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
                     Jumlah Main Dealer Terdaftar
                 </span>
-                <span class="font-bold text-gray-900 dark:text-white items-center justify-center" style="font-size: 90px">
-                    {{ $countMainDealer }}
-                </span>
+                <div class="flex-1 flex items-center justify-center">
+                    <span class="font-bold text-gray-900 dark:text-white items-center justify-center" style="font-size: 90px">
+                        {{ $countMainDealer }}
+                    </span>
+                </div>
             </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4">
+            <div class="relative h-100 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4">
                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
                     Distribusi Dokumen
                 </span>
                 <div class="flex-1 flex items-center justify-center">
-                    <canvas id="statusDokumenChart"></canvas>
+                    <div class="w-full h-full max-h-60"> 
+                        <canvas id="statusDokumenChart"></canvas>
+                    </div>
                 </div>
             </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4">
+            <div class="relative h-100 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4">
                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
                     Jumlah SMK Terdaftar
                 </span>
-                <span class="font-bold text-gray-900 dark:text-white items-center justify-center" style="font-size: 90px">
-                    {{ $countSchool }}
-                </span>
+                <div class="flex-1 flex items-center justify-center">
+                    <span class="font-bold text-gray-900 dark:text-white items-center justify-center" style="font-size: 90px">
+                        {{ $countSchool }}
+                    </span>
+                </div>
             </div>
         </div>
         <div class="grid gap-4 md:grid-cols-2">
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4 h-48">
+            <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4 h-[450px]">
                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
                     Main Dealer dengan SMK Terbanyak
                 </span>
-                <span class="font-bold text-gray-900 dark:text-white flex-1 flex items-center justify-center" style="font-size: 90px">
-                    {{ $countMainDealer }}
-                </span>
+                <div class="flex-1 flex items-center justify-center w-full">
+                    <canvas id="mainDealerBarChart" class="w-full h-full"></canvas>
+                </div>
             </div>
-            <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4 h-48">
+
+            <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 flex flex-col text-center p-4 h-96">
                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">
                     Main Dealer dengan MoU di Arsip Terbanyak
                 </span>
-                <span class="font-bold text-gray-900 dark:text-white flex-1 flex items-center justify-center" style="font-size: 90px">
-                    {{ $countSchool }}
-                </span>
+                <div class="flex-1 flex items-center justify-center">
+                    <span class="font-bold text-gray-900 dark:text-white text-6xl">
+                        {{ $countSchool }}
+                    </span>
+                </div>
             </div>
         </div>
         <div class="grid auto-rows-min gap-4 md:grid-cols-3">
