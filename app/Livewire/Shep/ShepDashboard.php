@@ -10,6 +10,7 @@ class ShepDashboard extends Component
     public $countSchool;
     public $countRecap;
     public $barChartData;
+    public $barChartData2;
 
     public function mount()
     {
@@ -23,7 +24,15 @@ class ShepDashboard extends Component
             ->orderByDesc('schools_count')
             ->take(5)
             ->pluck('schools_count', 'md_name');
-    }
+    $this->barChartData2 = \App\Models\MainDealer::withCount([
+                'recaps as arsip_count' => function ($query) {
+                    $query->where('status_dokumen', 'Di Arsip');
+                }
+            ])
+            ->orderByDesc('arsip_count')
+            ->take(5)
+            ->pluck('arsip_count', 'md_name');
+            }
     
     
     public function render()

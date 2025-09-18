@@ -64,18 +64,6 @@
                           
                           <th scope="col" class="px-6 py-3 text-start border-s border-gray-200 dark:border-neutral-700">
                             <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
-                              Kode MD
-                            </span>
-                          </th>
-
-                          <th scope="col" class="px-6 py-3 text-start">
-                            <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
-                              Nama MD
-                            </span>
-                          </th>
-
-                          <th scope="col" class="px-6 py-3 text-start">
-                            <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
                               NPSN
                             </span>
                           </th>
@@ -83,6 +71,18 @@
                           <th scope="col" class="px-6 py-3 text-start">
                             <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
                               Nama SMK
+                            </span>
+                          </th>
+
+                          <th scope="col" class="px-6 py-3 text-start">
+                            <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
+                              Kode MD
+                            </span>
+                          </th>
+
+                          <th scope="col" class="px-6 py-3 text-start">
+                            <span class="text-xs font-semibold uppercase text-gray-800 dark:text-neutral-200">
+                              Nama MD
                             </span>
                           </th>
 
@@ -122,22 +122,22 @@
                           </td>
                           <td class="h-px w-auto whitespace-nowrap">
                             <div class="px-6 py-2">
-                              <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->mainDealer->md_code }}</span>
-                            </div>
-                          </td>
-                          <td class="h-px w-auto whitespace-nowrap">
-                            <div class="px-6 py-2">
-                              <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->mainDealer->md_name }}</span>
-                            </div>
-                          </td>
-                          <td class="h-px w-auto whitespace-nowrap">
-                            <div class="px-6 py-2">
                               <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->School->npsn }}</span>
                             </div>
                           </td>
                           <td class="h-px w-auto whitespace-nowrap">
                             <div class="px-6 py-2">
                               <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->School->school_name }}</span>
+                            </div>
+                          </td>
+                          <td class="h-px w-auto whitespace-nowrap">
+                            <div class="px-6 py-2">
+                              <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->mainDealer->md_code }}</span>
+                            </div>
+                          </td>
+                          <td class="h-px w-auto whitespace-nowrap">
+                            <div class="px-6 py-2">
+                              <span class="text-sm text-gray-800 dark:text-neutral-200">{{  $recap->mainDealer->md_name }}</span>
                             </div>
                           </td>
                           <td class="h-px w-auto whitespace-nowrap">

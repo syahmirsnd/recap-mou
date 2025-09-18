@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Shep\ShepDashboard;
+use App\Livewire\User\UserDashboard;
+use App\Livewire\User\AboutProgram;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -23,12 +25,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified', 'user'])
-    ->name('user.dashboard');
-
 // USER route
 Route::middleware(['auth', 'verified', 'user'])->group(function () {
+    Route::get('/dashboard', UserDashboard::class)->name('user.dashboard');
     Route::get('/mou-list', UserMouList::class)->name('user.mou.index');
 });
 
@@ -51,6 +50,8 @@ Route::get('/shep/school-list', SchoolList::class)->name('shep.school.index');
 Route::get('/create/school', AddSchool::class)->name('school.create');
 Route::get('/edit/school/{id}', EditSchool::class)->name('school.edit');
 
+Route::get('/about', AboutProgram::class)->name('about.index');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
@@ -63,5 +64,6 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['shep','auth'])->group(function(){
     Route::get('/shep/dashboard', ShepDashboard::class)->name('shep.dashboard');
 });
+
 
 require __DIR__.'/auth.php';
