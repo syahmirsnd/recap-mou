@@ -15,7 +15,6 @@ class UserDashboard extends Component
     public $maindealers = [];
     public $maindealer_id = '';
     public $filteredRecaps = [];
-    public $showResults = false;  // <- This property is crucial
     public $selectedDealerName = '';
 
     public function mount()
@@ -47,7 +46,6 @@ class UserDashboard extends Component
                 ->get();
             
             $this->selectedDealerName = $selectedDealer->md_name;
-            $this->showResults = true;  // <- This line is essential!
             
             if ($this->filteredRecaps->count() > 0) {
                 Toaster::success('Ditemukan ' . $this->filteredRecaps->count() . ' data MoU untuk: ' . $selectedDealer->md_name);
@@ -63,23 +61,10 @@ class UserDashboard extends Component
     {
         $this->maindealer_id = '';
         $this->filteredRecaps = collect();
-        $this->showResults = false;  // <- This resets the visibility
         $this->selectedDealerName = '';
         $this->dispatch('form-reset');
         
         Toaster::info('Pencarian direset');
-    }
-
-    public function showAll()
-    {
-        $this->filteredRecaps = Recap::with(['School', 'mainDealer'])
-            ->orderBy('created_at', 'desc')
-            ->get();
-        $this->showResults = true;  // <- This shows all data
-        $this->selectedDealerName = 'Semua Main Dealer';
-        $this->maindealer_id = '';
-        
-        Toaster::info('Menampilkan semua data MoU');
     }
 
     public function render()
