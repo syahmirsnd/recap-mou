@@ -1,6 +1,143 @@
 <div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@script
+<script>
+    let histogramChart = null;
+    let statusDokumenChart = null;
 
+    function initializeCharts() {
+        if (typeof Chart === 'undefined') {
+            setTimeout(initializeCharts, 100);
+            return;
+        }
+        renderHistogramChart();
+        renderStatusDokumenChart();
+    }
+
+    function renderHistogramChart() {
+        const canvas = document.getElementById('histogramChart');
+        if (!canvas) return;
+
+        if (histogramChart) {
+            histogramChart.destroy();
+        }
+
+        const ctx = canvas.getContext('2d');
+        const histogramData = @js($histogramData);
+        
+        console.log('Histogram data:', histogramData);
+        
+        histogramChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: histogramData.labels,
+                datasets: [{
+                    label: 'Jumlah Dokumen Di Arsip',
+                    data: histogramData.data,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#6b7280'
+                        },
+                        grid: {
+                            color: '#e5e7eb'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#6b7280'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Jumlah: ' + context.parsed.y;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function renderStatusDokumenChart() {
+        const canvas = document.getElementById('statusDokumenChart');
+        if (!canvas) return;
+
+        if (statusDokumenChart) {
+            statusDokumenChart.destroy();
+        }
+
+        const ctx = canvas.getContext('2d');
+        const pieChartData = @js($pieChartData);
+        
+        console.log('Pie chart data:', pieChartData);
+        
+        statusDokumenChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: pieChartData.labels,
+                datasets: [{
+                    data: pieChartData.data,
+                    backgroundColor: pieChartData.colors,
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = total > 0 ? ((context.parsed * 100) / total).toFixed(1) : 0;
+                                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize charts when component loads
+    $nextTick(() => {
+        setTimeout(initializeCharts, 100);
+    });
+    
+    // Listen for chart updates
+    Livewire.on('charts-updated', () => {
+        setTimeout(initializeCharts, 100);
+    });
+</script>
+@endscript
 <!-- Hero -->
 <div class="relative overflow-hidden">
   <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
@@ -148,7 +285,7 @@
                             Histogram - {{ $selectedDealerName }}
                         </h3>
                         <div >
-                            <!-- <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas> -->
+                            <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas>
                         </div>
                     </div> 
                 </div>
@@ -159,7 +296,7 @@
                             Status Distribution - {{ $selectedDealerName }}
                         </h3>
                         <div >
-                            <!-- <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas> -->
+                            <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas>
                         </div>
                     </div>
                 </div>
