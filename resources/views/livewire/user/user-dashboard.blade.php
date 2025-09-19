@@ -1,87 +1,6 @@
 <div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-@script
-<script>
-    let histogramChart = null;
-    let statusDokumenChart = null;
 
-    function initializeCharts() {
-        if (typeof Chart === 'undefined') {
-            setTimeout(initializeCharts, 100);
-            return;
-        }
-        renderHistogramChart();
-        renderStatusDokumenChart();
-    }
-
-    function renderHistogramChart() {
-        const canvas = document.getElementById('histogramChart');
-        if (!canvas) return;
-
-        if (histogramChart) {
-            histogramChart.destroy();
-        }
-
-        const ctx = canvas.getContext('2d');
-        
-        histogramChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: @js(array_keys($histogramData ?? [])),
-                datasets: [{
-                    label: 'Dokumen Di Arsip (Kumulatif)',
-                    data: @js(array_values($histogramData ?? [])),
-                    backgroundColor: '#3b82f6',
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: true } },
-                scales: {
-                    x: { ticks: { color: '#6b7280' }, grid: { display: false } },
-                    y: { beginAtZero: true, ticks: { color: '#6b7280', stepSize: 1 }, grid: { color: '#e5e7eb' } }
-                }
-            }
-        });
-    }
-
-    function renderStatusDokumenChart() {
-        const canvas = document.getElementById('statusDokumenChart');
-        if (!canvas) return;
-
-        if (statusDokumenChart) {
-            statusDokumenChart.destroy();
-        }
-
-        const ctx = canvas.getContext('2d');
-        
-        statusDokumenChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: @js($countRecap->keys()),
-                datasets: [{
-                    data: @js($countRecap->values()),
-                    backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6', '#fc65f7', '#84fffd'],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom' } }
-            }
-        });
-    }
-
-    // Initialize charts when component loads
-    $nextTick(() => {
-        setTimeout(initializeCharts, 100);
-    });
-</script>
-@endscript
 <!-- Hero -->
 <div class="relative overflow-hidden">
   <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
@@ -220,16 +139,35 @@
   </div>
 </div>
 <!-- End Hero -->
-<!-- Content -->
-<div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
+ <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div class="relative xl:w-10/12 xl:mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <div>
+                   <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
                         <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
                             Histogram - {{ $selectedDealerName }}
                         </h3>
                         <div >
-                            <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas>
+                            <!-- <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas> -->
+                        </div>
+                    </div> 
+                </div>
+
+                <div>
+                    <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
+                            Status Distribution - {{ $selectedDealerName }}
+                        </h3>
+                        <div >
+                            <!-- <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas> -->
                         </div>
                     </div>
-@if($showResults)
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Content -->
+@if($filteredRecaps->count() > 0)
     <!-- Search Results Header -->
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-4">
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 dark:bg-blue-900/20 dark:border-blue-800">
@@ -240,8 +178,8 @@
                     </svg>
                     <p class="text-blue-800 dark:text-blue-200">
                         <span class="font-medium">Hasil Pencarian:</span> {{ $selectedDealerName }}
-                        @if($recaps->count() > 0)
-                            ({{ $recaps->count() }} data ditemukan)
+                        @if($filteredRecaps->count() > 0)
+                            ({{ $filteredRecaps->count() }} data ditemukan)
                         @else
                             (Tidak ada data)
                         @endif
@@ -257,26 +195,7 @@
         </div>
     </div>
          <!-- Features -->
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <div class="relative xl:w-10/12 xl:mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                <div>
-                    
-                </div>
-
-                <div>
-                    <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                            Status Distribution - {{ $selectedDealerName }}
-                        </h3>
-                        <div >
-                            <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- End Features -->
     <!-- Table Section -->
     <div class="max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8 mx-auto">
@@ -321,7 +240,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($recaps as $recap)
+                                    @foreach($filteredRecaps as $recap)
                                         <tr>
                                             <td class="h-px w-auto whitespace-nowrap">
                                                 <div class="px-6 py-2">

@@ -9,62 +9,19 @@ use Masmerise\Toaster\Toaster;
 use Livewire\Attributes\Title;
 
 #[Title('CCO Recap MOU | Dashboard')]
+
 class UserDashboard extends Component
 {
     public $maindealers = [];
     public $maindealer_id = '';
     public $filteredRecaps = [];
-    public $showResults = false;
+    public $showResults = false;  // <- This property is crucial
     public $selectedDealerName = '';
-    public $histogramData = [];
-    public $countRecap;
 
     public function mount()
     {
         $this->maindealers = MainDealer::orderBy('md_name', 'asc')->get();
-        $this->filteredRecaps = Recap::with(['School', 'mainDealer'])->get();
-        $this->updateChartsFromRecaps();
-    }
-
-    private function updateChartsFromRecaps()
-    {
-        
-        $this->countRecap = $this->filteredRecaps
-            ->groupBy('status_dokumen')
-            ->map->count();
-
-        $start = now()->subMonths(5)->startOfMonth();
-        $end = now()->endOfMonth();
-
-        $perBulan = $this->filteredRecaps
-            ->where('status_dokumen', 'Di Arsip')
-            ->filter(function ($recap) use ($start, $end) {
-                return $recap->updated_at >= $start && $recap->updated_at <= $end;
-            })
-            ->groupBy(function ($recap) {
-                return $recap->updated_at->format('Y-m');
-            })
-            ->map->count();
-
-        $histogramData = [];
-        $runningTotal = 0;
-
-        $period = new \DatePeriod($start, new \DateInterval('P1M'), $end->copy()->addMonth());
-        foreach ($period as $month) {
-            $key = $month->format('Y-m');
-            $displayKey = $month->format('M Y');
-
-            $monthlyCount = $perBulan[$key] ?? 0;
-            $runningTotal += $monthlyCount;
-
-            $histogramData[$displayKey] = $runningTotal;
-        }
-
-        if (empty($histogramData)) {
-            $histogramData = ['No Data' => 0];
-        }
-
-        $this->histogramData = $histogramData;
+        $this->filteredRecaps = collect();
     }
 
     public function search()
@@ -82,19 +39,16 @@ class UserDashboard extends Component
         }
 
         $selectedDealer = MainDealer::find($this->maindealer_id);
-
+        
         if ($selectedDealer) {
-
             $this->filteredRecaps = Recap::where('main_dealer_id', $this->maindealer_id)
                 ->with(['School', 'mainDealer'])
                 ->orderBy('created_at', 'desc')
                 ->get();
-
-            $this->updateChartsFromRecaps();
-
+            
             $this->selectedDealerName = $selectedDealer->md_name;
-            $this->showResults = true;
-
+            $this->showResults = true;  // <- This line is essential!
+            
             if ($this->filteredRecaps->count() > 0) {
                 Toaster::success('Ditemukan ' . $this->filteredRecaps->count() . ' data MoU untuk: ' . $selectedDealer->md_name);
             } else {
@@ -108,15 +62,24 @@ class UserDashboard extends Component
     public function resetSearch()
     {
         $this->maindealer_id = '';
-        $this->filteredRecaps = Recap::with(['School', 'mainDealer'])->get();
-        $this->showResults = false;
+        $this->filteredRecaps = collect();
+        $this->showResults = false;  // <- This resets the visibility
         $this->selectedDealerName = '';
-
-        $this->updateChartsFromRecaps();
-
         $this->dispatch('form-reset');
-
+        
         Toaster::info('Pencarian direset');
+    }
+
+    public function showAll()
+    {
+        $this->filteredRecaps = Recap::with(['School', 'mainDealer'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $this->showResults = true;  // <- This shows all data
+        $this->selectedDealerName = 'Semua Main Dealer';
+        $this->maindealer_id = '';
+        
+        Toaster::info('Menampilkan semua data MoU');
     }
 
     public function render()
