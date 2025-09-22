@@ -73,6 +73,7 @@ class UserDashboard extends Component
             $labels[] = $date->format('M Y');
         }
 
+        // Group data berdasarkan bulan
         $monthlyData = $this->filteredRecaps
             ->where('status_dokumen', 'Di Arsip')
             ->groupBy(function ($recap) {
@@ -80,15 +81,25 @@ class UserDashboard extends Component
             })
             ->map->count();
 
+        // Isi data bulanan
         foreach ($monthlyData as $monthKey => $count) {
             if (isset($months[$monthKey])) {
                 $months[$monthKey] = $count;
             }
         }
 
+        // Konversi ke akumulatif
+        $cumulativeData = [];
+        $runningTotal = 0;
+        
+        foreach ($months as $monthKey => $count) {
+            $runningTotal += $count;
+            $cumulativeData[] = $runningTotal;
+        }
+
         $this->histogramData = [
             'labels' => $labels,
-            'data' => array_values($months)
+            'data' => $cumulativeData
         ];
         
         // Debug hasil chart data
