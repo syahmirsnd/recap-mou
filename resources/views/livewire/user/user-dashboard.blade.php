@@ -23,12 +23,13 @@
         }
 
         const ctx = canvas.getContext('2d');
-        const histogramData = @js($histogramData);
+        // Get fresh data from Livewire component
+        const histogramData = @this.histogramData;
         
         console.log('Histogram data:', histogramData);
         
         histogramChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: histogramData.labels,
                 datasets: [{
@@ -87,12 +88,13 @@
         }
 
         const ctx = canvas.getContext('2d');
-        const pieChartData = @js($pieChartData);
+        // Get fresh data from Livewire component
+        const pieChartData = @this.pieChartData;
         
         console.log('Pie chart data:', pieChartData);
         
         statusDokumenChart = new Chart(ctx, {
-            type: 'doughnut',
+            type: 'pie',
             data: {
                 labels: pieChartData.labels,
                 datasets: [{
@@ -132,9 +134,15 @@
         setTimeout(initializeCharts, 100);
     });
     
-    // Listen for chart updates
+    // Listen for chart updates and search completion
     Livewire.on('charts-updated', () => {
+        console.log('Charts updated event received');
         setTimeout(initializeCharts, 100);
+    });
+
+    Livewire.on('search-completed', () => {
+        console.log('Search completed, updating charts');
+        setTimeout(initializeCharts, 200);
     });
 </script>
 @endscript
@@ -279,10 +287,10 @@
  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         <div class="relative xl:w-10/12 xl:mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                <div>
+                <div class="relative h-80">
                    <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
                         <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                            Histogram - {{ $selectedDealerName }}
+                            Akumulasi MoU Di Arsip - {{ $selectedDealerName }}
                         </h3>
                         <div >
                             <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas>
@@ -290,7 +298,7 @@
                     </div> 
                 </div>
 
-                <div>
+                <div class="relative h-80">
                     <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
                         <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
                             Status Distribution - {{ $selectedDealerName }}
