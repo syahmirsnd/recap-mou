@@ -8,13 +8,28 @@
         <!-- Name -->
         <flux:input
             wire:model="name"
-            :label="__('Nama Lengkap - Asal Instansi')"
+            :label="__('Nama Lengkap')"
             type="text"
             required
             autofocus
             autocomplete="name"
-            :placeholder="__('Rudiansyah - SMK / Main Dealer')"
+            :placeholder="__('Rudiansyah')"
         />
+        <!-- Main Dealer -->
+        <flux:select
+            wire:model="main_dealer_id"
+            :label="__('Asal Main Dealer')"
+            required
+        >
+            <option value="">-- Pilih Main Dealer --</option>
+
+            @foreach ($mainDealers as $md)
+                <option value="{{ $md->id }}">
+                    {{ $md->md_name }}
+                </option>
+            @endforeach
+        </flux:select>
+
 
         <!-- Email Address -->
         <flux:input

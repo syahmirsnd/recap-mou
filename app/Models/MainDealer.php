@@ -27,6 +27,11 @@ class MainDealer extends Model
         return $this->hasMany(Recap::class, 'main_dealer_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function getJumlahSmkAttribute()
     {
         return $this->schools()->count();

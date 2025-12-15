@@ -1,54 +1,173 @@
 <div>
-    <div class="space-y-5 md:space-y-8">
-      <div class="space-y-3">
-        <h2 class="text-2xl font-bold md:text-3xl dark:text-white">Announcing a free plan for small teams</h2>
-
-        <p class="text-lg text-gray-800 dark:text-neutral-200">At preline, our mission has always been focused on bringing openness and transparency to the design process. We've always believed that by providing a space where designers can share ongoing work not only empowers them to make better products, it also helps them grow.</p>
-      </div>
-
-      <p class="text-lg text-gray-800 dark:text-neutral-200">We're proud to be a part of creating a more open culture and to continue building a product that supports this vision.</p>
-
-      <figure>
-        <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-        <figcaption class="mt-3 text-sm text-center text-gray-500 dark:text-neutral-500">
-          A woman sitting at a table.
-        </figcaption>
-      </figure>
-
-      <p class="text-lg text-gray-800 dark:text-neutral-200">As we've grown, we've seen how Preline has helped companies such as Spotify, Microsoft, Airbnb, Facebook, and Intercom bring their designers closer together to create amazing things. We've also learned that when the culture of sharing is brought in earlier, the better teams adapt and communicate with one another.</p>
-
-      <p class="text-lg text-gray-800 dark:text-neutral-200">That's why we are excited to share that we now have a <a class="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500" href="#">free version of Preline</a>, which will allow individual designers, startups and other small teams a chance to create a culture of openness early on.</p>
-
-      <blockquote class="text-center p-4 sm:px-7">
-        <p class="text-xl font-medium text-gray-800 md:text-2xl md:leading-normal xl:text-2xl xl:leading-normal dark:text-neutral-200">
-          To say that switching to Preline has been life-changing is an understatement. My business has tripled and I got my life back.
-        </p>
-        <p class="mt-5 text-gray-800 dark:text-neutral-200">
-          Nicole Grazioso
-        </p>
-      </blockquote>
-
-      <figure>
-        <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1670272498380-eb330b61f3cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=560&q=80" alt="Blog Image">
-        <figcaption class="mt-3 text-sm text-center text-gray-500 dark:text-neutral-500">
-          A man and a woman looking at a cell phone.
-        </figcaption>
-      </figure>
-
-      <div class="space-y-3">
-        <h3 class="text-2xl font-semibold dark:text-white">Bringing the culture of sharing to everyone</h3>
-
-        <p class="text-lg text-gray-800 dark:text-neutral-200">We know the power of sharing is real, and we want to create an opportunity for everyone to try Preline and explore how transformative open communication can be. Now you can have a team of one or two designers and unlimited spectators (think PMs, management, marketing, etc.) share work and explore the design process earlier.</p>
-      </div>
-
-      <ul class="list-disc list-outside space-y-5 ps-5 text-lg text-gray-800 dark:text-neutral-200">
-        <li class="ps-2">Preline allows us to collaborate in real time and is a really great way for leadership on the team to stay up-to-date with what everybody is working on," <a class="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500" href="#">said</a> Stewart Scott-Curran, Intercom's Director of Brand Design.</li>
-        <li class="ps-2">Preline opened a new way of sharing. It's a persistent way for everyone to see and absorb each other's work," said David Scott, Creative Director at <a class="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium dark:text-blue-500" href="#">Eventbrite</a>.</li>
-      </ul>
-
-      <p class="text-lg text-gray-800 dark:text-neutral-200">Small teams and individual designers need a space where they can watch the design process unfold, both for themselves and for the people they work with – no matter if it's a fellow designer, product manager, developer or client. Preline allows you to invite more people into the process, creating a central place for conversation around design. As those teams grow, transparency and collaboration becomes integrated in how they communicate and work together.</p>
+    <div class="max-w-5xl mx-auto">
+    <!-- Hero Section with Title -->
+    <div class="relative overflow-hidden rounded-3xl mb-12 md:mb-16">
+        <div class="absolute inset-0 bg-gradient-to-r from-red-600/90 to-red-700/80 z-10"></div>
+        <img class="w-full h-[400px] md:h-[500px] object-cover" 
+             src="https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+             alt="Program Edukasi Satu Hati">
+        <div class="absolute inset-0 z-20 flex items-center justify-center p-6">
+            <div class="text-center max-w-3xl">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6" data-testid="hero-title">
+                    PROGRAM EDUKASI<br>SATU HATI
+                </h1>
+                <p class="text-lg md:text-xl text-white/90 leading-relaxed">
+                    Membawa keterbukaan dan transparansi dalam proses kolaborasi antara industri dan pendidikan
+                </p>
+            </div>
+        </div>
     </div>
-    <!-- End Content -->
+
+    <!-- Content Section -->
+    <div class="space-y-12 md:space-y-16 px-4">
+        
+        <!-- Introduction -->
+        <div class="prose prose-lg max-w-none">
+            <p class="text-xl text-gray-700 dark:text-neutral-300 leading-relaxed">
+                Misi kami selalu fokus pada keterbukaan dan transparansi dalam proses pendidikan. Kami percaya bahwa dengan menyediakan ruang di mana sekolah dan industri dapat berbagi pengalaman, hal ini tidak hanya memberdayakan mereka untuk menciptakan program yang lebih baik, tetapi juga membantu mereka berkembang bersama.
+            </p>
+        </div>
+
+        <!-- Image Grid Section -->
+        <div class="grid md:grid-cols-2 gap-6 lg:gap-8">
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                <img class="w-full h-[300px] md:h-[400px] object-cover transform group-hover:scale-105 transition-transform duration-500" 
+                     src="https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     alt="Kolaborasi Pendidikan">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="flex flex-col justify-center space-y-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white" data-testid="section-title-culture">
+                    Membawa Budaya Berbagi untuk Semua
+                </h2>
+                <p class="text-lg text-gray-700 dark:text-neutral-300 leading-relaxed">
+                    Kami bangga menjadi bagian dari penciptaan budaya yang lebih terbuka dan terus membangun produk yang mendukung visi ini. Program kami telah membantu berbagai institusi membawa tim mereka lebih dekat untuk menciptakan hal-hal luar biasa.
+                </p>
+                <div class="flex items-center gap-3 text-red-600 dark:text-red-400 font-semibold">
+                    <span>Pelajari lebih lanjut</span>
+                    <svg class="w-5 h-5 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote Card -->
+        <div class="relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-red-50 to-orange-50 dark:from-neutral-800 dark:to-neutral-900 rounded-3xl transform -rotate-1"></div>
+            <div class="relative bg-white dark:bg-neutral-800 rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100 dark:border-neutral-700">
+                <svg class="w-12 h-12 text-red-500 mb-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+                <blockquote class="space-y-6">
+                    <p class="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white leading-relaxed" data-testid="testimonial-quote">
+                        "Bergabung dengan Program Edukasi Satu Hati telah mengubah cara kami berkolaborasi dengan industri. Kemitraan ini benar-benar membawa perubahan signifikan."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-orange-500"></div>
+                        <div>
+                            <p class="font-semibold text-gray-900 dark:text-white">Nicole Grazioso</p>
+                            <p class="text-sm text-gray-500 dark:text-neutral-400">Kepala SMK Partner</p>
+                        </div>
+                    </div>
+                </blockquote>
+            </div>
+        </div>
+
+        <!-- Image with Content Overlay -->
+        <div class="grid md:grid-cols-5 gap-8 items-center">
+            <div class="md:col-span-2 space-y-6">
+                <div class="inline-block">
+                    <span class="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-sm font-semibold">
+                        💡 Inovasi Pendidikan
+                    </span>
+                </div>
+                <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white" data-testid="section-title-innovation">
+                    Kolaborasi Real-Time yang Efektif
+                </h3>
+                <p class="text-lg text-gray-700 dark:text-neutral-300 leading-relaxed">
+                    Program kami memungkinkan kolaborasi secara real-time dan merupakan cara yang sangat baik bagi kepemimpinan tim untuk tetap update dengan apa yang sedang dikerjakan semua orang.
+                </p>
+            </div>
+            <div class="md:col-span-3">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+                    <div class="relative">
+                        <img class="w-full h-[350px] object-cover rounded-2xl shadow-xl" 
+                             src="https://images.unsplash.com/photo-1670272498380-eb330b61f3cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Kolaborasi Tim">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Benefits -->
+        <div class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-800 dark:to-neutral-900 rounded-3xl p-8 md:p-12">
+            <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8" data-testid="section-title-benefits">
+                Keunggulan Program
+            </h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="flex gap-4 group" data-testid="benefit-item-1">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 rounded-xl bg-red-500 flex items-center justify-center transform group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Transparansi Penuh</h4>
+                        <p class="text-gray-600 dark:text-neutral-400">
+                            Program kami membuka cara baru dalam berbagi. Ini adalah cara yang persisten bagi semua orang untuk melihat dan menyerap pekerjaan satu sama lain.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 group" data-testid="benefit-item-2">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center transform group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Akses Mudah</h4>
+                        <p class="text-gray-600 dark:text-neutral-400">
+                            Tim kecil dan individu memerlukan ruang di mana mereka dapat melihat proses berkembang, baik untuk diri mereka sendiri maupun untuk orang yang bekerja dengan mereka.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-600 to-orange-600 p-8 md:p-12 text-center">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+            <div class="relative z-10 max-w-2xl mx-auto space-y-6">
+                <h3 class="text-3xl md:text-4xl font-bold text-white" data-testid="cta-title">
+                    Siap Bergabung dengan Program Kami?
+                </h3>
+                <p class="text-lg text-white/90">
+                    Jadilah bagian dari komunitas yang terus berkembang dan berinovasi dalam dunia pendidikan vokasi.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                    <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-white text-red-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 duration-200" data-testid="cta-button-primary">
+                        Daftar Sekarang
+                        <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold hover:bg-white/20 transition-colors border-2 border-white/30" data-testid="cta-button-secondary">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
       <!-- FAQ -->
 <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">

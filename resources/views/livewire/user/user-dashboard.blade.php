@@ -107,6 +107,7 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                aspectRatio: 2,
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -284,33 +285,7 @@
   </div>
 </div>
 <!-- End Hero -->
- <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <div class="relative xl:w-10/12 xl:mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-                <div class="relative h-80">
-                   <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                            Akumulasi MoU Di Arsip - {{ $selectedDealerName }}
-                        </h3>
-                        <div >
-                            <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas>
-                        </div>
-                    </div> 
-                </div>
-
-                <div class="relative h-80">
-                    <div class="p-4 relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
-                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                            Status Distribution - {{ $selectedDealerName }}
-                        </h3>
-                        <div >
-                            <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
 <!-- Content -->
 @if($filteredRecaps->count() > 0)
     <!-- Search Results Header -->
@@ -340,7 +315,33 @@
         </div>
     </div>
          <!-- Features -->
-    
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto h-80">
+        <div class="relative xl:w-10/12 xl:mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+                <div>
+                   <div class="p-4 w-full relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
+                            Akumulasi MoU Di Arsip - {{ $selectedDealerName }}
+                        </h3>
+                        <div >
+                            <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas>
+                        </div>
+                    </div> 
+                </div>
+
+                <div>
+                    <div class="p-4 w-full relative z-10 bg-white border border-gray-200 rounded-xl md:p-10 dark:bg-gray-900 dark:border-gray-700">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
+                            Status Distribution - {{ $selectedDealerName }}
+                        </h3>
+                        <div >
+                            <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- End Features -->
     <!-- Table Section -->
     <div class="max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8 mx-auto">

@@ -26,11 +26,9 @@ class UserDashboard extends Component
     {
         $this->maindealers = MainDealer::orderBy('md_name', 'asc')->get();
         $this->filteredRecaps = collect();
-        
-        // Set chart kosong di awal
+
         $this->setEmptyChartData();
         
-        // Debug mount
         \Log::info('Mount called, maindealer_id: ' . $this->maindealer_id);
         $this->dispatch('console-log', ['message' => 'Component mounted with maindealer_id: ' . $this->maindealer_id]);
     }
@@ -52,8 +50,7 @@ class UserDashboard extends Component
             ->map->count();
 
         $colors = [
-            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-            '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'
+            '#3b82f6', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6', '#fc65f7', '#84fffd'
         ];
 
         $this->pieChartData = [

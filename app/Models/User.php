@@ -23,7 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'shep_verified'
+        'shep_verified',
+        'main_dealer_id',
     ];
 
     /**
@@ -69,4 +70,10 @@ class User extends Authenticatable
             }
         });
     }
+
+    public function mainDealer()
+    {
+        return $this->belongsTo(MainDealer::class);
+    }
+
 }
