@@ -1,77 +1,179 @@
 <div class="grid gap-6">
-
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-(() => {
-    const charts = {};
+/**
+ * ================================
+ * GLOBAL CHART REGISTRY
+ * ================================
+ */
+window.DashboardCharts = {
+    pie: null,
+    bar1: null,
+    bar2: null,
+};
 
-    const destroy = id => {
-        if (charts[id]) {
-            charts[id].destroy();
-            delete charts[id];
+/**
+ * ================================
+ * SAFE CANVAS GETTER
+ * ================================
+ */
+function getCanvas(id) {
+    const el = document.getElementById(id);
+    return el ? el.getContext('2d') : null;
+}
+
+/**
+ * ================================
+ * RENDER FUNCTIONS
+ * ================================
+ */
+function renderGlobalPie() {
+    const ctx = getCanvas('chart-global-pie');
+    if (!ctx) return false;
+
+    if (DashboardCharts.pie) {
+        DashboardCharts.pie.destroy();
+    }
+
+    DashboardCharts.pie = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: @json($countRecap->keys()),
+            datasets: [{
+                data: @json($countRecap->values()),
+                backgroundColor: [
+                    '#3b82f6','#f59e0b','#ef4444',
+                    '#10b981','#8b5cf6','#ec4899'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: { legend: { position: 'bottom' } }
         }
-    };
-
-    const pie = (id, labels, data, colors) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        destroy(id);
-
-        charts[id] = new Chart(el, {
-            type: 'pie',
-            data: { labels, datasets: [{ data, backgroundColor: colors }] },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: true,
-                plugins: { legend: { position: 'bottom' } } 
-            }
-        });
-    };
-
-    const bar = (id, labels, data, color) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        destroy(id);
-
-        charts[id] = new Chart(el, {
-            type: 'bar',
-            data: { labels, datasets: [{ data, backgroundColor: color, borderRadius: 6 }] },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-            }
-        });
-    };
-
-    // Initialize global charts on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        pie(
-            'chart-global-pie',
-            @json($countRecap->keys()),
-            @json($countRecap->values()),
-            ['#3b82f6','#f59e0b','#ef4444','#10b981']
-        );
-
-        bar(
-            'chart-global-bar1',
-            @json($barChartData->keys()),
-            @json($barChartData->values()),
-            '#3b82f6'
-        );
-
-        bar(
-            'chart-global-bar2',
-            @json($barChartData2->keys()),
-            @json($barChartData2->values()),
-            '#ef4444'
-        );
     });
-})();
+
+    return true;
+}
+
+function renderGlobalBar1() {
+    const ctx = getCanvas('chart-global-bar1');
+    if (!ctx) return false;
+
+    if (DashboardCharts.bar1) {
+        DashboardCharts.bar1.destroy();
+    }
+
+    const isMobile = window.innerWidth < 640;
+
+    DashboardCharts.bar1 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @json($barChartData->keys()),
+            datasets: [{
+                data: @json($barChartData->values()),
+                backgroundColor: '#3b82f6',
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    ticks: { font: { size: isMobile ? 8 : 12 } },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+
+    return true;
+}
+
+function renderGlobalBar2() {
+    const ctx = getCanvas('chart-global-bar2');
+    if (!ctx) return false;
+
+    if (DashboardCharts.bar2) {
+        DashboardCharts.bar2.destroy();
+    }
+
+    const isMobile = window.innerWidth < 640;
+
+    DashboardCharts.bar2 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: @json($barChartData2->keys()),
+            datasets: [{
+                data: @json($barChartData2->values()),
+                backgroundColor: '#ef4444',
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: {
+                    ticks: { font: { size: isMobile ? 8 : 12 } },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+
+    return true;
+}
+
+/**
+ * ================================
+ * MASTER RENDER (MANUAL)
+ * ================================
+ */
+function renderChartsManually(retry = 0) {
+    if (typeof Chart === 'undefined') {
+        return setTimeout(() => renderChartsManually(retry), 100);
+    }
+
+    const ok =
+        renderGlobalPie() &&
+        renderGlobalBar1() &&
+        renderGlobalBar2();
+
+    if (!ok && retry < 20) {
+        // DOM belum siap → retry
+        setTimeout(() => renderChartsManually(retry + 1), 100);
+    }
+}
+
+// trigger pertama (awal load)
+renderChartsManually();
+
+// trigger setelah Livewire render ulang
+document.addEventListener('livewire:navigated', () => {
+    renderChartsManually();
+});
+
+// trigger resize (optional tapi recommended)
+window.addEventListener('resize', () => {
+    renderChartsManually();
+});
 </script>
 @endpush
+
 
 {{-- ================= GLOBAL SUMMARY SECTION ================= --}}
 <div class="space-y-6">
