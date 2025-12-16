@@ -11,19 +11,10 @@ use App\Models\School;
 class ShepDashboard extends Component
 {
     /** ================= GLOBAL SUMMARY (LOCKED - NEVER CHANGES) ================= */
-    #[Locked]
     public $countMainDealer;
-    
-    #[Locked]
     public $countSchool;
-    
-    #[Locked]
     public $countRecap;
-    
-    #[Locked]
     public $barChartData;
-    
-    #[Locked]
     public $barChartData2;
 
     /** ================= FILTER ================= */
@@ -47,10 +38,6 @@ class ShepDashboard extends Component
         $this->filteredRecaps = collect();
     }
 
-    /**
-     * Load global data - called only once on mount
-     * These values are LOCKED and won't change during component lifecycle
-     */
     private function loadGlobalData(): void
     {
         $this->countMainDealer = MainDealer::count();

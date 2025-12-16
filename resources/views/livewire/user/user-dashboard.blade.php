@@ -23,7 +23,6 @@
         }
 
         const ctx = canvas.getContext('2d');
-        // Get fresh data from Livewire component
         const histogramData = @this.histogramData;
         
         console.log('Histogram data:', histogramData);
@@ -88,7 +87,6 @@
         }
 
         const ctx = canvas.getContext('2d');
-        // Get fresh data from Livewire component
         const pieChartData = @this.pieChartData;
         
         console.log('Pie chart data:', pieChartData);
@@ -135,31 +133,41 @@
         setTimeout(initializeCharts, 100);
     });
     
-    // Listen for chart updates and search completion
+    // Listen for chart updates
     Livewire.on('charts-updated', () => {
         console.log('Charts updated event received');
         setTimeout(initializeCharts, 100);
     });
-
-    Livewire.on('search-completed', () => {
-        console.log('Search completed, updating charts');
-        setTimeout(initializeCharts, 200);
-    });
 </script>
 @endscript
+
 <!-- Hero -->
 <div class="relative overflow-hidden">
   <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
     <div class="max-w-xl text-center mx-auto">
       <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
         <div class="text-center mx-auto">
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-400">
-            Selamat datang di laman <span class="text-blue-600">Recap MoU</span>
-        </p>
-        <p class="mt-3 text-l text-gray-800 dark:text-gray-400">
-            Ketik nama instansi pada kolom pencarian untuk melihat preview Recap MoU.
-        </p>
+            @if($userMainDealerId)
+                {{-- User has main_dealer_id - Show welcome message --}}
+                <p class="text-2xl font-bold text-gray-800 dark:text-gray-400">
+                    Selamat datang di <span class="text-blue-600">Dashboard Recap MoU</span>
+                </p>
+                <p class="mt-3 text-l text-gray-800 dark:text-gray-400">
+                    Data untuk: <span class="font-semibold text-blue-600">{{ $selectedDealerName }}</span>
+                </p>
+            @else
+                {{-- User doesn't have main_dealer_id - Show search instruction --}}
+                <p class="text-2xl font-bold text-gray-800 dark:text-gray-400">
+                    Selamat datang di laman <span class="text-blue-600">Recap MoU</span>
+                </p>
+                <p class="mt-3 text-l text-gray-800 dark:text-gray-400">
+                    Ketik nama instansi pada kolom pencarian untuk melihat preview Recap MoU.
+                </p>
+            @endif
         </div>
+        
+        {{-- Only show search form if user doesn't have main_dealer_id --}}
+        @if(!$userMainDealerId)
         <!-- Form -->
         <form wire:submit="search">
             <div class="mb-4 sm:mb-8"
@@ -170,7 +178,6 @@
                     selectedId: @entangle('maindealer_id')
                 }"
                 x-init="
-                    // Reset when form is submitted
                     $wire.on('form-reset', () => {
                         search = '';
                         selectedName = 'Cari Main Dealer...';
@@ -280,6 +287,7 @@
             </div>
         </form>
         <!-- End Form -->
+        @endif
       </div>
     </div>
   </div>
@@ -287,35 +295,38 @@
 <!-- End Hero -->
  
 <!-- Content -->
-@if($filteredRecaps->count() > 0)
+@if($showResults && $filteredRecaps->count() > 0)
     <!-- Search Results Header -->
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pb-4">
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 dark:bg-blue-900/20 dark:border-blue-800">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                     <p class="text-blue-800 dark:text-blue-200">
-                        <span class="font-medium">Hasil Pencarian:</span> {{ $selectedDealerName }}
-                        @if($filteredRecaps->count() > 0)
-                            ({{ $filteredRecaps->count() }} data ditemukan)
+                        @if($autoLoaded)
+                            <span class="font-medium">Data Anda:</span>
                         @else
-                            (Tidak ada data)
+                            <span class="font-medium">Hasil Pencarian:</span>
                         @endif
+                        {{ $selectedDealerName }} ({{ $filteredRecaps->count() }} data ditemukan)
                     </p>
                 </div>
+                @if(!$userMainDealerId)
                 <div class="flex gap-2">
                     <button wire:click="resetSearch" 
                             class="text-gray-600 hover:text-gray-800 text-sm font-medium dark:text-gray-400">
                         Reset Pencarian
                     </button>
                 </div>
+                @endif
             </div>
         </div>
     </div>
-         <!-- Features -->
-    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto h-80">
+
+    <!-- Features -->
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         <div class="relative xl:w-10/12 xl:mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 <div>
@@ -323,8 +334,8 @@
                         <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
                             Akumulasi MoU Di Arsip - {{ $selectedDealerName }}
                         </h3>
-                        <div >
-                            <canvas id="histogramChart" class="w-full h-full" wire:ignore></canvas>
+                        <div class="h-80" wire:ignore>
+                            <canvas id="histogramChart" class="w-full h-full"></canvas>
                         </div>
                     </div> 
                 </div>
@@ -334,8 +345,8 @@
                         <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
                             Status Distribution - {{ $selectedDealerName }}
                         </h3>
-                        <div >
-                            <canvas id="statusDokumenChart" class="w-full h-full" wire:ignore></canvas>
+                        <div class="h-80" wire:ignore>
+                            <canvas id="statusDokumenChart" class="w-full h-full"></canvas>
                         </div>
                     </div>
                 </div>
@@ -343,6 +354,7 @@
         </div>
     </div>
     <!-- End Features -->
+
     <!-- Table Section -->
     <div class="max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8 mx-auto">
         <!-- Card -->
@@ -466,6 +478,16 @@
         </div>
     </div>
     <!-- End Table Section -->
+@elseif($showResults && $filteredRecaps->count() == 0)
+    <!-- No Data Message -->
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-8 text-center dark:bg-yellow-900/20 dark:border-yellow-800">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">Tidak Ada Data</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+                Tidak ada data MoU ditemukan untuk {{ $selectedDealerName }}
+            </p>
+        </div>
+    </div>
 @endif
 <!-- End Content -->
 </div>

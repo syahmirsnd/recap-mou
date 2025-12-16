@@ -20,6 +20,8 @@ class UserDashboard extends Component
     public $selectedDealerName = '';
     public $histogramData = [];
     public $pieChartData = [];
+    public $userMainDealerId = null;
+    public $autoLoaded = false;
     
 
     public function mount()
@@ -27,17 +29,49 @@ class UserDashboard extends Component
         $this->maindealers = MainDealer::orderBy('md_name', 'asc')->get();
         $this->filteredRecaps = collect();
 
-        $this->setEmptyChartData();
+        // Get user's main_dealer_id
+        $user = auth()->user();
         
-        \Log::info('Mount called, maindealer_id: ' . $this->maindealer_id);
-        $this->dispatch('console-log', ['message' => 'Component mounted with maindealer_id: ' . $this->maindealer_id]);
+        if ($user && $user->main_dealer_id) {
+            $this->userMainDealerId = $user->main_dealer_id;
+            $this->maindealer_id = $user->main_dealer_id;
+            
+            // Auto load data for user's main dealer
+            $this->autoLoadData();
+        } else {
+            $this->setEmptyChartData();
+        }
+        
+        \Log::info('Mount called, user main_dealer_id: ' . $this->userMainDealerId);
+    }
+
+    private function autoLoadData()
+    {
+        $selectedDealer = MainDealer::find($this->maindealer_id);
+
+        if ($selectedDealer) {
+            // Load data untuk tabel DAN chart
+            $this->filteredRecaps = Recap::where('main_dealer_id', $this->maindealer_id)
+                ->with(['School', 'mainDealer'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $this->selectedDealerName = $selectedDealer->md_name;
+            $this->showResults = true;
+            $this->autoLoaded = true;
+
+            // Generate chart dari data yang sama dengan tabel
+            $this->generateChartsFromFilteredRecaps();
+
+            \Log::info('Auto-loaded data for main dealer: ' . $selectedDealer->md_name);
+        } else {
+            $this->setEmptyChartData();
+        }
     }
 
     private function generateChartsFromFilteredRecaps()
     {
-        // Debug
         \Log::info('generateChartsFromFilteredRecaps called with ' . $this->filteredRecaps->count() . ' records');
-        $this->dispatch('console-log', ['message' => 'Generating charts from ' . $this->filteredRecaps->count() . ' filtered recaps']);
 
         if ($this->filteredRecaps->isEmpty()) {
             $this->setEmptyChartData();
@@ -99,21 +133,8 @@ class UserDashboard extends Component
             'data' => $cumulativeData
         ];
         
-        // Debug hasil chart data
         \Log::info('Charts generated - Pie labels: ' . json_encode($this->pieChartData['labels']));
-        \Log::info('Charts generated - Pie data: ' . json_encode($this->pieChartData['data']));
         \Log::info('Charts generated - Histogram data: ' . json_encode($this->histogramData['data']));
-        
-        $this->dispatch('console-log', [
-            'message' => 'Charts generated successfully',
-            'data' => [
-                'maindealer_id' => $this->maindealer_id,
-                'recapsCount' => $this->filteredRecaps->count(),
-                'pieLabels' => $this->pieChartData['labels'],
-                'pieData' => $this->pieChartData['data'],
-                'histogramData' => $this->histogramData['data']
-            ]
-        ]);
         
         // Dispatch event untuk update chart di frontend
         $this->dispatch('charts-updated', [
@@ -135,7 +156,6 @@ class UserDashboard extends Component
         ];
         
         \Log::info('Empty chart data set');
-        $this->dispatch('console-log', ['message' => 'Empty chart data set']);
         
         $this->dispatch('charts-updated', [
             'pieChartData' => $this->pieChartData,
@@ -145,9 +165,7 @@ class UserDashboard extends Component
 
     public function search()
     {
-        // Debug search start
         \Log::info('Search method called with maindealer_id: ' . $this->maindealer_id);
-        $this->dispatch('console-log', ['message' => 'Search started with maindealer_id: ' . $this->maindealer_id]);
 
         // Validasi input
         if (empty($this->maindealer_id)) {
@@ -183,16 +201,6 @@ class UserDashboard extends Component
             } else {
                 Toaster::info('Tidak ada data MoU ditemukan untuk: ' . $selectedDealer->md_name);
             }
-            
-            // Debug search success
-            $this->dispatch('console-log', [
-                'message' => 'Search completed successfully', 
-                'data' => [
-                    'maindealer_id' => $this->maindealer_id,
-                    'dealer_name' => $selectedDealer->md_name,
-                    'records_found' => $this->filteredRecaps->count()
-                ]
-            ]);
         } else {
             Toaster::error('Main Dealer tidak ditemukan');
             $this->setEmptyChartData();
@@ -202,18 +210,22 @@ class UserDashboard extends Component
     public function resetSearch()
     {
         \Log::info('Reset search called');
-        $this->dispatch('console-log', ['message' => 'Reset search called']);
         
-        $this->maindealer_id = '';
-        $this->filteredRecaps = collect();
-        $this->showResults = false;
-        $this->selectedDealerName = '';
-
-        // Reset chart ke kondisi kosong
-        $this->setEmptyChartData();
+        // If user has main_dealer_id, reload their data
+        if ($this->userMainDealerId) {
+            $this->maindealer_id = $this->userMainDealerId;
+            $this->autoLoadData();
+            Toaster::info('Data direset ke Main Dealer Anda');
+        } else {
+            $this->maindealer_id = '';
+            $this->filteredRecaps = collect();
+            $this->showResults = false;
+            $this->selectedDealerName = '';
+            $this->setEmptyChartData();
+            Toaster::info('Pencarian direset');
+        }
+        
         $this->dispatch('form-reset');
-
-        Toaster::info('Pencarian direset');
     }
 
     public function render()
