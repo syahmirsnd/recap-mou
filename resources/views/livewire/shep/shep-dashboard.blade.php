@@ -2,32 +2,18 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-/**
- * ================================
- * GLOBAL CHART REGISTRY
- * ================================
- */
+
 window.DashboardCharts = {
     pie: null,
     bar1: null,
     bar2: null,
 };
 
-/**
- * ================================
- * SAFE CANVAS GETTER
- * ================================
- */
 function getCanvas(id) {
     const el = document.getElementById(id);
     return el ? el.getContext('2d') : null;
 }
 
-/**
- * ================================
- * RENDER FUNCTIONS
- * ================================
- */
 function renderGlobalPie() {
     const ctx = getCanvas('chart-global-pie');
     if (!ctx) return false;
@@ -43,14 +29,14 @@ function renderGlobalPie() {
             datasets: [{
                 data: @json($countRecap->values()),
                 backgroundColor: [
-                    '#3b82f6','#f59e0b','#ef4444',
-                    '#10b981','#8b5cf6','#ec4899'
+                    '#3b82f6','#10b981','#ef4444',
+                    '#f59e0b','#8b5cf6','#ec4899'
                 ]
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: { legend: { position: 'bottom' } }
         }
     });
@@ -178,40 +164,39 @@ window.addEventListener('resize', () => {
 {{-- ================= GLOBAL SUMMARY SECTION ================= --}}
 <div class="space-y-6">
     <div class="flex items-center justify-between">
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Dashboard Overview</h2>
-        <span class="text-sm text-gray-500 dark:text-gray-400">Global Statistics</span>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Dashboard Recap MoU</h2>
     </div>
 
     {{-- Summary Cards --}}
     <div class="grid md:grid-cols-3 gap-4">
         <div class="p-6 bg-white border border-gray-200 rounded-xl text-center shadow-sm hover:shadow-md transition-shadow">
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Total Main Dealer</p>
-            <p class="text-5xl font-bold text-blue-600">{{ $countMainDealer }}</p>
+            <p class="font-bold text-blue-600" style="font-size: 72px; line-height: 1; margin-top: 90px">{{ $countMainDealer }}</p>
         </div>
 
         <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">Document Status Distribution</p>
-            <div class="h-56" wire:ignore>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3 text-center">Distribusi Status Dokumen</p>
+            <div class="h-40" wire:ignore>
                 <canvas id="chart-global-pie"></canvas>
             </div>
         </div>
 
         <div class="p-6 bg-white border border-gray-200 rounded-xl text-center shadow-sm hover:shadow-md transition-shadow">
             <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Total SMK</p>
-            <p class="text-5xl font-bold text-green-600">{{ $countSchool }}</p>
+            <p class="font-bold text-green-600" style="font-size: 72px; line-height: 1; margin-top: 90px">{{ $countSchool }}</p>
         </div>
     </div>
 
     {{-- Bar Charts --}}
     <div class="grid lg:grid-cols-2 gap-6">
         <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-            <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4">Top 5 Main Dealers by Schools</h3>
+            <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4">Top 5 Main Dealer berdasarkan Jumlah Sekolah</h3>
             <div class="h-80" wire:ignore>
                 <canvas id="chart-global-bar1"></canvas>
             </div>
         </div>
         <div class="bg-white border border-gray-200 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-            <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4">Top 5 Main Dealers by Archived Documents</h3>
+            <h3 class="text-lg font-semibold text-gray-700 dark:text-white mb-4">Top 5 Main Dealer berdasarkan Jumlah Dokumen Terarsipkan</h3>
             <div class="h-80" wire:ignore>
                 <canvas id="chart-global-bar2"></canvas>
             </div>
@@ -244,7 +229,7 @@ window.addEventListener('resize', () => {
                 
                 <div class="w-full relative">
                     <label for="maindealer-search" class="block text-sm text-gray-700 font-medium dark:text-white mb-2">
-                        Select Main Dealer to Filter
+                        Pilih Main Dealer
                     </label>
                     <input 
                         type="text" 
@@ -315,7 +300,7 @@ window.addEventListener('resize', () => {
                     <button 
                         type="submit"
                         x-ref="searchBtn"
-                        class="h-11 w-20 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none transition-colors">
+                        class="h-10 w-10 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none transition-colors">
                         
                         <div wire:loading wire:target="search" class="animate-spin w-5 h-5 border-2 border-current border-t-transparent rounded-full" role="status">
                             <span class="sr-only">Loading...</span>
@@ -344,9 +329,9 @@ window.addEventListener('resize', () => {
     
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Filtered Results</h2>
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Hasil Filter</h2>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                Showing data for: <span class="font-semibold text-blue-600">{{ $selectedDealerName }}</span>
+                Menampilkan data: <span class="font-semibold text-blue-600">{{ $selectedDealerName }}</span>
             </p>
         </div>
         <button 
@@ -361,9 +346,9 @@ window.addEventListener('resize', () => {
     </div>
 
     {{-- Filtered Stats Summary --}}
-    <div class="grid md:grid-cols-4 gap-4 mb-6">
+    <div class="grid gap-4 mb-6" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
         <div class="p-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl text-center">
-            <p class="text-sm text-blue-700 mb-2 font-medium">Total Records</p>
+            <p class="text-sm text-blue-700 mb-2 font-medium">Total Dokumen</p>
             <p class="text-4xl font-bold text-blue-600">{{ $filteredRecaps->count() }}</p>
         </div>
         <div class="p-6 bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-xl text-center">
@@ -371,12 +356,12 @@ window.addEventListener('resize', () => {
             <p class="text-4xl font-bold text-green-600">{{ $filteredRecaps->where('status_dokumen', 'Di Arsip')->count() }}</p>
         </div>
         <div class="p-6 bg-gradient-to-br from-amber-50 to-amber-100 border border-amber-200 rounded-xl text-center">
-            <p class="text-sm text-amber-700 mb-2 font-medium">In Progress</p>
-            <p class="text-4xl font-bold text-amber-600">{{ $filteredRecaps->whereNotIn('status_dokumen', ['Di Arsip', 'Rejected'])->count() }}</p>
+            <p class="text-sm text-amber-700 mb-2 font-medium">Dalam Proses</p>
+            <p class="text-4xl font-bold text-amber-600">{{ $filteredRecaps->whereNotIn('status_dokumen', ['Di Arsip', 'Dikembalikan'])->count() }}</p>
         </div>
         <div class="p-6 bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-xl text-center">
-            <p class="text-sm text-red-700 mb-2 font-medium">Rejected</p>
-            <p class="text-4xl font-bold text-red-600">{{ $filteredRecaps->where('status_dokumen', 'Rejected')->count() }}</p>
+            <p class="text-sm text-red-700 mb-2 font-medium">Dikembalikan</p>
+            <p class="text-4xl font-bold text-red-600">{{ $filteredRecaps->where('status_dokumen', 'Dikembalikan')->count() }}</p>
         </div>
     </div>
 
@@ -387,7 +372,7 @@ window.addEventListener('resize', () => {
                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
-                Status Distribution
+                Distribusi Status Dokumen
             </h3>
             <div class="space-y-3">
                 @php
@@ -403,7 +388,7 @@ window.addEventListener('resize', () => {
                         // Color mapping
                         $colors = [
                             'Di Arsip' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'bar' => 'bg-green-500'],
-                            'Rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'bar' => 'bg-red-500'],
+                            'Dikembalikan' => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'bar' => 'bg-red-500'],
                         ];
                         
                         $color = $colors[$status] ?? ['bg' => 'bg-blue-100', 'text' => 'text-blue-700', 'bar' => 'bg-blue-500'];
@@ -434,7 +419,7 @@ window.addEventListener('resize', () => {
                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                Recent Activity
+                Aktivitas Terbaru
             </h3>
             <div class="space-y-2">
                 @foreach($filteredRecaps->sortByDesc('updated_at')->take(5) as $recap)
@@ -446,7 +431,7 @@ window.addEventListener('resize', () => {
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                     </svg>
                                 </div>
-                            @elseif($recap->status_dokumen === 'Rejected')
+                            @elseif($recap->status_dokumen === 'Dikembalikan')
                                 <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
                                     <svg class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -482,7 +467,7 @@ window.addEventListener('resize', () => {
                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                All Records
+                Seluruh Dokumen
             </h3>
             <span class="text-sm text-gray-500">{{ $filteredRecaps->count() }} total</span>
         </div>
@@ -491,9 +476,9 @@ window.addEventListener('resize', () => {
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Sekolah</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Terakhir Diubah</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
