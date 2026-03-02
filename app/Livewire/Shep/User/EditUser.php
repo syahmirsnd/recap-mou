@@ -4,6 +4,7 @@ namespace App\Livewire\Shep\User;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\MainDealer;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,14 +18,18 @@ class EditUser extends Component
     public  $role = '';
     public  $shep_verified = '';
     public  $user_details = '';
+    public  $mainDealers = [];
+    public  $main_dealer_id = '';
 
     public function mount($id){
         $this->user_details = \App\Models\User::find($id);
+        $this->mainDealers = MainDealer::all();
 
         $this->fill ([
             'name' =>$this->user_details->name,
             'email' =>$this->user_details->email,
             'role' =>$this->user_details->role,
+            'main_dealer_id' => $this->user_details->main_dealer_id,
             'shep_verified' =>$this->user_details->shep_verified,
         ]);
     }
@@ -35,6 +40,7 @@ class EditUser extends Component
             'name'  => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:users,email,' . $this->user_details->id,
             'role'  => 'required',
+            'main_dealer_id' => 'required',
             'shep_verified'  => 'required',
         ]);
 

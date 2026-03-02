@@ -44,6 +44,32 @@
         </div>
 
         <div class="mb-4 sm:mb-8">
+          <label for="main_dealer_id" class="block mb-2 text-sm font-medium dark:text-white">
+            Asal Main Dealer
+          </label>
+
+          <select id="main_dealer_id" wire:model="main_dealer_id"
+              class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm 
+                  focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 
+                  disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 
+                  dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+
+              <option value="">-- Pilih Main Dealer --</option>
+
+              @foreach ($mainDealers as $md)
+                  <option value="{{ $md->id }}">
+                      {{ $md->md_name }}
+                  </option>
+              @endforeach
+
+          </select>
+
+          @error('main_dealer_id')
+              <span class="text-red-500">{{ $message }}</span>
+          @enderror
+        </div>
+
+        <div class="mb-4 sm:mb-8">
           <label for="shep_verified" class="block mb-2 text-sm font-medium dark:text-white">Verifikasi</label>
             <select id="shep_verified" wire:model="shep_verified"
                 class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm 
