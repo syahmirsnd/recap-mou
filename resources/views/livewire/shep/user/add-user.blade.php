@@ -12,8 +12,8 @@
     <div class="mt-5 p-4 relative z-10 bg-white border border-gray-200 rounded-xl sm:mt-10 md:p-10 dark:bg-neutral-900 dark:border-neutral-700">
       <form wire:submit="save">
         <div class="mb-4 sm:mb-8">
-          <label for="name" class="block mb-2 text-sm font-medium dark:text-white">Nama Lengkap - Asal Instansi</label>
-          <input type="text" id="name" wire:model="name" class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Rudiansyah - SMK / Main Dealer">
+          <label for="name" class="block mb-2 text-sm font-medium dark:text-white">Nama Lengkap</label>
+          <input type="text" id="name" wire:model="name" class="py-2.5 sm:py-3 px-4 block w-full border-gray-200 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600" placeholder="Rudiansyah">
             @error ('name')
                 <span class="text-red-500">{{ $message }}</span>
             @enderror
