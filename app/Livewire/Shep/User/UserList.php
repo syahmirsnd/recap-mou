@@ -18,7 +18,7 @@ class UserList extends Component
             return redirect()->route('shep.user.index');
         }
 
-        // cek email spesifik
+        // akun super admin gabisa diapus
         if ($user->email === 'akunshep@undeleted.com') {
             return redirect()->route('shep.user.index');
             $this->dispatch('swal', [

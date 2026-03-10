@@ -8,7 +8,7 @@ use Masmerise\Toaster\Toaster;
 use Livewire\Attributes\On;
 
 
-class MdList extends Component
+class MDList extends Component
 {
     #[On('deleteMD')]
     public function delete($id){
