@@ -12,7 +12,7 @@ use App\Livewire\Shep\Mou\EditMou;
 use App\Livewire\Shep\User\UserList;
 use App\Livewire\Shep\User\AddUser;
 use App\Livewire\Shep\User\EditUser;
-use App\Livewire\Shep\Maindealer\MDList;
+use App\Livewire\Shep\Maindealer\MdList;
 use App\Livewire\Shep\Maindealer\AddMD;
 use App\Livewire\Shep\Maindealer\EditMD;
 use App\Livewire\Shep\School\SchoolList;
@@ -42,7 +42,7 @@ Route::get('/shep/user-list', UserList::class)->name('shep.user.index');
 Route::get('/create/user', AddUser::class)->name('user.create');
 Route::get('/edit/user/{id}', EditUser::class)->name('user.edit');
 
-Route::get('/shep/maindealer-list', MDList::class)->name('shep.maindealer.index');
+Route::get('/shep/maindealer-list', MdList::class)->name('shep.maindealer.index');
 Route::get('/create/maindealer', AddMD::class)->name('maindealer.create');
 Route::get('/edit/maindealer/{id}', EditMD::class)->name('maindealer.edit');
 
