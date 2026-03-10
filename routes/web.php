@@ -13,8 +13,8 @@ use App\Livewire\Shep\User\UserList;
 use App\Livewire\Shep\User\AddUser;
 use App\Livewire\Shep\User\EditUser;
 use App\Livewire\Shep\Maindealer\MdList;
-use App\Livewire\Shep\Maindealer\AddMD;
-use App\Livewire\Shep\Maindealer\EditMD;
+use App\Livewire\Shep\Maindealer\AddMd;
+use App\Livewire\Shep\Maindealer\EditMd;
 use App\Livewire\Shep\School\SchoolList;
 use App\Livewire\Shep\School\AddSchool;
 use App\Livewire\Shep\School\EditSchool;
@@ -43,8 +43,8 @@ Route::get('/create/user', AddUser::class)->name('user.create');
 Route::get('/edit/user/{id}', EditUser::class)->name('user.edit');
 
 Route::get('/shep/maindealer-list', MdList::class)->name('shep.maindealer.index');
-Route::get('/create/maindealer', AddMD::class)->name('maindealer.create');
-Route::get('/edit/maindealer/{id}', EditMD::class)->name('maindealer.edit');
+Route::get('/create/maindealer', AddMd::class)->name('maindealer.create');
+Route::get('/edit/maindealer/{id}', EditMd::class)->name('maindealer.edit');
 
 Route::get('/shep/school-list', SchoolList::class)->name('shep.school.index');
 Route::get('/create/school', AddSchool::class)->name('school.create');
