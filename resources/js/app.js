@@ -1,6 +1,8 @@
 import 'preline'
 import '../../vendor/masmerise/livewire-toaster/resources/js'
 import 'datatables.net-dt/css/dataTables.dataTables.css';
+import './bootstrap'
+import 'flux-ui'
 import DataTable from 'datatables.net-dt';
 
 document.addEventListener("livewire:navigated", function () {
