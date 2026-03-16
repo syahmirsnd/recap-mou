@@ -258,7 +258,7 @@
         </flux:header>
 
         {{ $slot }}
-
+        @livewireScripts
         @fluxScripts
         <x-toaster-hub />
 
